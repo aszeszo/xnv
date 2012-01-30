@@ -76,7 +76,8 @@ if (exists($opts{'b'})) {
 	    if (exists $ENV{'XBUILD_HG_ID'}) {
 		$hg_id = $ENV{'XBUILD_HG_ID'};
 	    } else {
-		open my $VERS, '-|', $build_version_file
+		open my $VERS, '-|', $build_version_file .
+		    '|| git log --pretty=format:\'%h tip\' -1..'
 		    or die "Can't run $build_version_file: $!\n";
 
 		while ($_ = <$VERS>) {

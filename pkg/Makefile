@@ -165,7 +165,7 @@ PKGVERS_BUILD = $(PKGVERS_BUILTON)-$(PKGVERS_BRANCH)
 # Build number is derived from last nv_XXX tag in hg log
 $(PDIR)/versions: transforms/versions.tmpl $(PDIR)
 	@print "## Substituting build info in versions transformation template"
-	$(PKGDEBUG) HG_ID="$$(hg id)" ; \
+	$(PKGDEBUG) HG_ID="$$(hg id 2>/dev/null || git log --pretty=format:'%h' -1..)" ; \
 	$(PERL) -p -e "s{_PKGVERS_BUILD_}{$(PKGVERS_BUILD)};" \
 		-e "s{_HG_ID_}{$${HG_ID}}" transforms/versions.tmpl > $@
 

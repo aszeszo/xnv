@@ -68,7 +68,8 @@
 # When the next development train is started this pattern will need to be
 # changed in order to match the tag used there.
 #
-TRUNKID :sh = hg parent --template '{latesttag}\n' | \
+TRUNKID :sh = (hg parent --template '{latesttag}\n' 2>/dev/null || \
+        git tag | grep "^nv_[0-9][0-9][0-9]" | sort -rn | head -1) | \
         perl -l -n -e 'if ($_ =~ m/^nv_(\d+)/) {print $1} else {exit 1}'
 # If you get mksh: Fatal error from the above, then you have an unexpected
 # tag other than nv_XXX in your hg repo.   You can run make TRUNKID=123 to
@@ -112,4 +113,5 @@ BUILDID= 0
 # Note: :sh is used for the finding the values because it is evaluated
 # once during the package build.
 #
-NIGHTLYID		:sh = (hg parent --template '{rev}\n')
+NIGHTLYID		:sh = (hg parent --template '{rev}\n' 2>/dev/null || \
+        git rev-list --all | wc -l | sed s/\ //g)
