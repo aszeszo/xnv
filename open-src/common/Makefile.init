@@ -201,7 +201,7 @@ LDFLAGS_common 		= -z lazyload -B direct -z guidance
 LDFLAGS_common	       += $(MAPFILES_FOR_ALL)
 
 # Strip debug info out of non-debug builds
-$(BUILD_DEBUG:yes=$(POUND_SIGN))  LDFLAGS_common += -z strip-class=debug
+#$(BUILD_DEBUG:yes=$(POUND_SIGN))  LDFLAGS_common += -z strip-class=debug
 
 # LIB_REQUIRED_LDFLAGS are forced on via LD_OPTIONS to override libtool when
 # building libraries.

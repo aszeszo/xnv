@@ -30,6 +30,10 @@
 #
 #
 
+# Workaround Studio locale related issue on illumos
+LANG=C
+export LANG
+
 # Add /usr/bin to front of path in case user has /usr/gnu/bin default
 # Add /usr/gnu/bin to path for gnu sed/awk/etc. that configure scripts prefer
 # Add /usr/sbin to path for dtrace (to build probes in X servers)
