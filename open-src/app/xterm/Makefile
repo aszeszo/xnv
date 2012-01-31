@@ -106,7 +106,7 @@ MODULE_CONFIG_OPTS_VERBOSE_ = $(MODULE_CONFIG_OPTS_VERBOSE_0)
 MODULE_CONFIG_OPTS += $(MODULE_CONFIG_OPTS_VERBOSE_$(V))
 
 # Tell configure where to find luit binary
-MODULE_CONFIG_ENV = LUIT=$(X11_BIN_DIR)/luit
+MODULE_CONFIG_ENV = LUIT=$(X11_BIN_DIR)/luit CPPFLAGS=-I/usr/include/ncurses
 
 # Compatibility links from /usr/X11/bin to /usr/bin
 MODULE_X11_BINCOMPAT_LINKS = xterm resize
