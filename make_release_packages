@@ -70,8 +70,8 @@ CHECK_LOG="$(pwd)/log/check-pkgs"
 
 if [[ -z "${XNV_BUILDNUM}" ]] ; then
     # Get build version from hg by searching for most recent tag matching nv_*
-    BUILD_TAG="$((hg parent --template '{latesttag}\n' 2>/dev/null || \
-    git tag | grep "^nv_[0-9][0-9][0-9]" | sort -rn | head -1) | \
+    BUILD_TAG="$(hg parent --template '{latesttag}\n' 2>/dev/null || \
+    git tag | grep "^nv_[0-9][0-9][0-9]" | sort -rn | head -1 | \
         perl -l -n -e 'if ($_ =~ m/^nv_(\d+)/) {print $1}')"
 
     if [[ -z "${BUILD_TAG}" ]] ; then

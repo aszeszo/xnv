@@ -72,7 +72,7 @@ exec > log/buildit-XW 2>&1
 # Find hg id and export it so set-elf-comments.pl doesn't have to re-run
 # for every module built
 hg_id() {
-    (hg id -it 2>/dev/null || git log --pretty=format:\'%h tip\' -1..) | \
+    (hg id -it 2>/dev/null || git log --pretty=format:'%h tip' -1..) | \
     read rev tag
     case "${tag}" in
         tip)	print "${rev}" ;;
