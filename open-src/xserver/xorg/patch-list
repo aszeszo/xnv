@@ -1,5 +1,9 @@
 oslog-race.patch,-p1
 dtrace-doc.patch,-p1
+CVE-2011-4028.patch,-p1
+CVE-2011-4029.patch,-p1
+loadmod.patch,-p1
+dmx-glxproxy.patch,-p1
 osaudit.patch,-p1
 sun-paths.patch,-p1
 sun-extramodes.patch,-p1
@@ -13,7 +17,6 @@ xtsol.patch,-p1
 amd64-loader-path.patch,-p1
 fontmod.patch,-p1
 sparc-probe.patch,-p1
-sparc-nopciprobe.patch,-p1
 glx-impure.patch,-p1
 nvidia-autoconfig.patch,-p1
 autoconfig.patch,-p1
