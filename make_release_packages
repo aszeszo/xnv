@@ -70,7 +70,7 @@ CHECK_LOG="$(pwd)/log/check-pkgs"
 
 # Get build version from hg by searching for most recent tag matching s11u*
 BUILD_TAG="$(hg parent --template '{latesttag}\n' 2>/dev/null || \
-    git tag | grep "^nv_[0-9][0-9][0-9]" | sort -rn | head -1 | \
+    git tag | grep "^s11u.*_[0-9]" | sort -rn | head -1 | \
     perl -l -n -e 'if ($_ =~ m/^s11u\d+_\d+/) {print $_}')"
 
 if [[ -z "${BUILD_TAG}" ]] ; then
