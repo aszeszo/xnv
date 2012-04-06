@@ -40,10 +40,10 @@ depend type=require fmri=pkg:/data/sgml-common
 depend type=require fmri=pkg:/data/xml-common
 
 # Solaris assembler required by Studio compilers
-depend type=require fmri=pkg:/developer/assembler
+#XXX depend type=require fmri=pkg:/developer/assembler
 
 # Basic build utilities - nm, mcs, etc.
-depend type=require fmri=pkg:/developer/base-developer-utilities
+#XXX depend type=require fmri=pkg:/developer/base-developer-utilities
 
 # Many packages need to use GNU autotools to rebuild upstream configure files
 depend type=require fmri=pkg:/developer/build/autoconf
@@ -151,14 +151,14 @@ depend type=require fmri=pkg:/service/hal
 # Basic system headers & libraries
 depend type=require fmri=pkg:/system/header
 depend type=require fmri=pkg:/system/library
-depend type=require fmri=pkg:/system/library/c++-runtime
+#XXX depend type=require fmri=pkg:/system/library/c++-runtime
 depend type=require fmri=pkg:/system/library/flex-runtime
 depend type=require fmri=pkg:/system/library/gcc-3-runtime
 depend type=require fmri=pkg:/system/library/libdbus
 depend type=require fmri=pkg:/system/library/math
 
 # Almost all modules need Solaris ld to link binaries
-depend type=require fmri=pkg:/system/linker
+#XXX depend type=require fmri=pkg:/system/linker
 
 # autoconf scripts prefer gnu awk
 depend type=require fmri=pkg:/text/gawk
