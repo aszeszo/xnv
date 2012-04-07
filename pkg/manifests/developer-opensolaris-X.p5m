@@ -29,6 +29,13 @@ set name=info.classification \
 # without having to uninstall all the X packages first.
 set name=org.opensolaris.noincorp value=true
 
+# Build uses and packages deliver a lot of shell/ksh93 scripts
+#XXX depend type=require fmri=pkg:/shell/ksh org.opensolaris.pkgdepend.resolve=true
+
+# Build uses and packages depend on core OS commands & files
+#XXX depend type=require fmri=pkg:/system/core-os org.opensolaris.pkgdepend.resolve=true
+depend type=require fmri=pkg:/SUNWcs org.opensolaris.pkgdepend.resolve=true
+
 #############################################################################
 # This package is used for dual purposes - it defines what build machines
 # should have installed for building X, and it defines the subset of those
@@ -101,6 +108,11 @@ depend type=require fmri=pkg:/developer/lexer/flex
 # Various libraries build lint libraries, that depend on system lint libs
 depend type=require fmri=pkg:/developer/library/lint
 
+# Almost all modules need Solaris ld to link binaries
+#XXX depend type=require fmri=pkg:/system/linker
+depend type=require fmri=pkg:/developer/linker \
+    org.opensolaris.pkgdepend.resolve=true
+
 # xcb, xcb-util, xcb-util-wm need GNU M4 to build
 # (also required by any module running autoconf/autoreconf)
 depend type=require fmri=pkg:/developer/macro/gnu-m4
@@ -169,22 +181,17 @@ depend type=require fmri=pkg:/runtime/perl-$(PERL_PKG_VERSION) \
 # xcb & mesa require python interpreter/compiler
 depend type=require fmri=pkg:/runtime/python-$(PYTHON_PKG_VERSION)
 
-# Build uses and packages deliver a lot of shell/ksh93 scripts
-depend type=require fmri=pkg:/shell/ksh org.opensolaris.pkgdepend.resolve=true
-
-# Build uses and packages depend on core OS commands & files
-depend type=require fmri=pkg:/system/core-os \
-    org.opensolaris.pkgdepend.resolve=true
-
 # Xserver currently links with HAL & Dbus
-depend type=require fmri=pkg:/system/hal org.opensolaris.pkgdepend.resolve=true
+#XXX depend type=require fmri=pkg:/system/hal org.opensolaris.pkgdepend.resolve=true
+depend type=require fmri=pkg:/service/hal org.opensolaris.pkgdepend.resolve=true
 
 # Basic system headers & libraries
 depend type=require fmri=pkg:/system/header
 depend type=require fmri=pkg:/system/library \
     org.opensolaris.pkgdepend.resolve=true
-#XXX depend type=require fmri=pkg:/system/library/c++-runtime \
-#XXX     org.opensolaris.pkgdepend.resolve=true
+#XXX depend type=require fmri=pkg:/system/library/c++-runtime org.opensolaris.pkgdepend.resolve=true
+depend type=require fmri=pkg:/system/library/c++/sunpro \
+    org.opensolaris.pkgdepend.resolve=true
 depend type=require fmri=pkg:/system/library/flex-runtime
 depend type=require fmri=pkg:/system/library/gcc-3-runtime \
     org.opensolaris.pkgdepend.resolve=true
@@ -192,9 +199,6 @@ depend type=require fmri=pkg:/system/library/libdbus \
     org.opensolaris.pkgdepend.resolve=true
 depend type=require fmri=pkg:/system/library/math \
     org.opensolaris.pkgdepend.resolve=true
-
-# Almost all modules need Solaris ld to link binaries
-#XXX depend type=require fmri=pkg:/system/linker
 
 # autoconf scripts prefer gnu awk
 depend type=require fmri=pkg:/text/gawk
