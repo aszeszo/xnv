@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -25,8 +25,6 @@
 # published in the packages.
 <transform file dir link org.opensolaris.nopublish=true -> drop>
 
-# Drop incorrect/unwanted debug.osnet variant tags that pkgdepend puts on 
-# ksh/ksh93 script dependencies when run on snv_173 (pkgdepend bug 18884).
-# Can be removed once X builds are guaranteed to be run on machines
-# with that bug fix integrated into the OS build.
-<transform depend -> delete variant.debug.osnet .*>
+# Drop attributes used to filter developer-opensolaris-X.p5m for the
+# pkgdepend resolve -e list of packages to resolve against
+<transform depend -> delete org.opensolaris.pkgdepend.resolve .*>

@@ -1,4 +1,5 @@
-# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
+#
+# Copyright (c) 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -19,14 +20,7 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 # DEALINGS IN THE SOFTWARE.
 #
-set name=pkg.fmri value=pkg:/x11/demo/mesa-demos@__version:mesa-demos__
-set name=pkg.summary value="Mesa sample GLX clients"
-set name=pkg.description \
-    value="glxinfo lists information about the GLX extension, OpenGL capable visuals, and the OpenGL renderer on an X server.  glxgears is a GLX demo that draws three rotating gears, and prints out framerate information."
-link path=usr/X11/bin/glxinfo target=../../bin/glxinfo
-file path=usr/bin/$(ARCH64)/glxgears
-file path=usr/bin/$(ARCH64)/glxinfo
-file path=usr/bin/glxgears
-file path=usr/bin/glxinfo
-file path=usr/share/man/man1/glxgears.1
-file path=usr/share/man/man1/glxinfo.1
+
+# Print fmri for each depend line in a manifest
+# Used in pkg/Makefile rule for generating input to pkgdepend resolve -e
+<transform depend org.opensolaris.pkgdepend.resolve=true -> print %(fmri)>
