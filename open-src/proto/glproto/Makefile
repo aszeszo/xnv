@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -27,11 +27,12 @@
 MODULE_NAME=glproto
 
 # Version number (used in path names)
-MODULE_VERSION=1.4.12
+MODULE_VERSION=1.4.15
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 55edc5ff2efb734215c868f72f7cf27e
-TARBALL_SHA1 = 50f8bdae2c71b4bc4df421102f5f08a3fc417779
+TARBALL_MD5   = d1ff0c1acc605689919c1ee2fc9b5582
+TARBALL_SHA1  = 4cee35232f1926312b29d59a94da1c526b01e5c3
+TARBALL_SHA256= 990356ebe2e8966aa643287c9a485777957a49299dfb211654df5ff212dec171
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	

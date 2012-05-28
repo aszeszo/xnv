@@ -1,0 +1,11 @@
+diff --git a/glx/Makefile.am b/glx/Makefile.am
+index ced78b7..443d374 100644
+--- a/glx/Makefile.am
++++ b/glx/Makefile.am
+@@ -101,3 +101,6 @@ libglx_la_SOURCES = \
+         xfont.c
+ 
+ libglx_la_LIBADD = $(DLOPEN_LIBS)
++
++# Workaround Studio 12.1 optimizer bug 7154410
++glapi_gentable.lo: CFLAGS = $(CCASFLAGS:-xO4=-xO0)

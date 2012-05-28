@@ -1,6 +1,6 @@
 # -*- Makefile -*- rules commonly shared among X consolidation open source dirs
 #
-# Copyright (c) 2002, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2002, 2012, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -244,7 +244,9 @@ $(SOURCE_TARBALL): $(TARBALLDIR)
 		fi ; \
 	    fi ; \
 	else \
-	    if [[ "$(SOURCE_TARBALL_NAME)" != "NONE" ]] ; then \
+	    if [[ "$(SOURCE_TARBALL_NAME)" == "NONE" ]] ; then \
+		touch "$(SOURCE_TARBALL)" ; \
+	    else \
 		if [[ ! -z "$(TARBALL_ARCHIVE)" ]] ; then \
 		    URL='$(ARCHIVE_URL)' ; \
 		else \
@@ -484,7 +486,6 @@ $(UNPACK_TARGET): $(SOURCE_DEPS) $(UNPACK_TARGETS)
 # and use automake 1.10 instead of the older 1.9.
 ACLOCAL_PATH=/usr/bin/aclocal-1.10
 ACLOCAL_INCLUDES = -I $(PROTODIR)$(X11_ACLOCAL_DIR) \
-	-I $(TOOLS_ACLOCAL_DIR) \
 	-I /usr/share/aclocal -I /usr/share/aclocal-1.10
 AUTOMAKE_PATH=/usr/bin/automake-1.10
 AUTORECONF_ENV= ACLOCAL="$(ACLOCAL_PATH) $(ACLOCAL_INCLUDES)" \
@@ -520,20 +521,22 @@ $(CONFIG_SHELL_DEFAULT)		CONFIG_SHELL = /usr/bin/bash
 
 # Set USE_DEFAULT_CONFIG_ENV=no in a Makefile to not use this default
 # autoconfig environment
-$(USE_DEFAULT_CONFIG_ENV:no=$(POUND_SIGN))	DEFAULT_CONFIG_ENV = \
-    CC="$(CC)" CXX="$(CXX)" \
-    LD="$(CC) $(ARCH_FLAGS) $(LDFLAGS)" \
-    CFLAGS="$(MODTYPE_CFLAGS) $(MODULE_CFLAGS)" \
-    CXXFLAGS="$(MODTYPE_CXXFLAGS) $(MODULE_CXXFLAGS)" \
-    CPPFLAGS="$(DEFAULT_CONFIG_CPPFLAGS) $(MODTYPE_CPPFLAGS) $(MODULE_CPPFLAGS)" \
-    LDFLAGS="$(DEFAULT_CONFIG_LDFLAGS) $(MODTYPE_CFLAGS) $(MODTYPE_LDFLAGS) $(MODULE_CFLAGS) $(MODULE_LDFLAGS)" \
-    PKG_CONFIG_PATH="$(DEFAULT_PKG_CONFIG_PATH)" \
-    PERL="$(PERL)" \
-    PYTHON="$(PYTHON)" PYTHONPATH="$(PYTHON_PATH)" \
-    INSTALL="$(INSTALL_SCRIPT)" CPPROG="cp -p" \
-    MAKE="$(MODULE_MAKE)" CONFIG_SHELL="$(CONFIG_SHELL)"
+DEFAULT_CONFIG_ENV  = CC="$(CC)" CXX="$(CXX)"
+DEFAULT_CONFIG_ENV += LD="$(CC) $(ARCH_FLAGS) $(LDFLAGS)"
+DEFAULT_CONFIG_ENV += CFLAGS="$(MODTYPE_CFLAGS) $(MODULE_CFLAGS)" 
+DEFAULT_CONFIG_ENV += CXXFLAGS="$(MODTYPE_CXXFLAGS) $(MODULE_CXXFLAGS)"
+DEFAULT_CONFIG_ENV += CPPFLAGS="$(DEFAULT_CONFIG_CPPFLAGS) $(MODTYPE_CPPFLAGS) $(MODULE_CPPFLAGS)"
+DEFAULT_CONFIG_ENV += LDFLAGS="$(DEFAULT_CONFIG_LDFLAGS) $(MODTYPE_CFLAGS) $(MODTYPE_LDFLAGS) $(MODULE_CFLAGS) $(MODULE_LDFLAGS)"
+DEFAULT_CONFIG_ENV += PKG_CONFIG_PATH="$(DEFAULT_PKG_CONFIG_PATH)"
+DEFAULT_CONFIG_ENV += PERL="$(PERL)"
+DEFAULT_CONFIG_ENV += PYTHON="$(PYTHON)" PYTHONPATH="$(PYTHON_PATH)"
+DEFAULT_CONFIG_ENV += am_cv_python_pythondir="$(PYTHON_VENDOR_DIR)"
+DEFAULT_CONFIG_ENV += am_cv_python_pyexecdir="$(PYTHON_VENDOR_DIR)"
+DEFAULT_CONFIG_ENV += INSTALL="$(INSTALL_SCRIPT)" CPPROG="cp -p"
+DEFAULT_CONFIG_ENV += MAKE="$(MODULE_MAKE)" CONFIG_SHELL="$(CONFIG_SHELL)"
 
-CONFIG_ENV = $(DEFAULT_CONFIG_ENV) $(MODTYPE_CONFIG_ENV) $(MODULE_CONFIG_ENV)
+$(USE_DEFAULT_CONFIG_ENV:no=$(POUND_SIGN)) CONFIG_ENV = $(DEFAULT_CONFIG_ENV) 
+CONFIG_ENV += $(MODTYPE_CONFIG_ENV) $(MODULE_CONFIG_ENV)
 
 # File created by running configure - defaults to the top-level Makefile
 # in a source directory unless AUTOCONF_TARGET_SET=yes is set

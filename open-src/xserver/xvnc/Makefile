@@ -62,15 +62,18 @@ SOURCE_URL=$(SF_DOWNLOADS_URL)/tigervnc/tigervnc/1.1.0/$(SOURCE_TARBALL_NAME)
 SOURCE_URL_SET=yes
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = \
-	$(SOURCE_DIR)/unix/xserver110.patch,'-p0 -d unix' \
-	no-nasm.patch,-p1 \
-	applet-html.patch \
-	icon.patch \
-	solaris-libraries.patch,-p1 \
-	vnc-nobuildtime.patch \
-	vnc-nohttpd.patch \
-	solaris-port.patch
+SOURCE_PATCHES += $(SOURCE_DIR)/unix/xserver110.patch,'-p0 -d unix'
+SOURCE_PATCHES += tigervnc11-xorg111.patch,-p1
+SOURCE_PATCHES += tigervnc11-xorg112.patch,'-p0 -d unix'
+SOURCE_PATCHES += xorg-1.12.1.patch,-p1
+SOURCE_PATCHES += no-nasm.patch,-p1
+SOURCE_PATCHES += applet-html.patch
+SOURCE_PATCHES += icon.patch,-p1
+SOURCE_PATCHES += solaris-libraries.patch,-p1
+SOURCE_PATCHES += vnc-nobuildtime.patch,-p1
+SOURCE_PATCHES += vnc-nohttpd.patch,-p1
+SOURCE_PATCHES += solaris-port.patch,-p1
+SOURCE_PATCHES += solaris-audit.patch,-p1
 
 # Need to regenerate autoconf/automake files after patching
 AUTORECONF=yes
@@ -102,6 +105,10 @@ SUNTOUCH_MAN_FLAGS_vncviewer = -o '{Availability, $(VNCVIEWER_PKGNAME)}' \
 # Compiler to use
 MODULE_COMPILER=suncc
 MODULE_COMPILER_SET=yes
+
+# Make command to use
+MODULE_MAKE=$(GNUMAKE)
+MODULE_MAKE_SET=yes
 
 # Xvnc has to configure, build, and install in different directories due to 
 # the mixed codebases and unusual directory layout
@@ -183,6 +190,9 @@ MODULE_CPPFLAGS = \
 	-D__extension__=\"\" \
 	-I$(PWD)/$(SOURCE_DIR)/common \
 	-I$(PWD)/$(SOURCE_DIR)/unix/vncconfig
+
+# Workaround for Java failure with JDK 7 in S11U1b12 - continue using JDK 6 for now
+MODULE_BUILD_ENV = PATH="/usr/jdk/instances/jdk1.6.0/bin:$$PATH"
 
 CFLAGS_gcc += -fPIC
 

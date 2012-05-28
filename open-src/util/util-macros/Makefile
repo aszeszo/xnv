@@ -31,11 +31,12 @@ MODULE_PKGNAME=developer/build/autoconf/xorg-macros
 MODULE_PKGNAME_SET=yes
 
 # Version number (used in path names)
-MODULE_VERSION=1.15.0
+MODULE_VERSION=1.17
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 357efdfa69f3e092de3b7000b90f6f4a
-TARBALL_SHA1 = 1c4871ba4b4c6cac894b64489053d85e0a122e60
+TARBALL_MD5   = 4f41667e1bf4938bb2b24fa09d517f77
+TARBALL_SHA1  = c424a09fa6f628e24eff74496acebef13e8093b9
+TARBALL_SHA256= 7d79edde72fc17dcdc56cfbe2f8ff384d1bffd1d8c58c0fd25970f5b2ccb75ed
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	
@@ -45,9 +46,6 @@ MODULE_ADD_SOURCE_TARGETS=source_fix_pkgname
 
 # Need to autoreconf after running source_fix_pkgname
 AUTORECONF=yes
-
-# Additional install rules beyond what upstream installs
-MODULE_ADD_INSTALL_TARGETS=install_libtool_fix
 
 # xorg-macro pkg-config files are architecture independent, so install in share
 MODTYPE_PKGCONFIG_DIR=$(PKGCONFIG_DIR_SHARE)
@@ -62,32 +60,8 @@ source_fix_pkgname: $(PATCHED_TARGET)
 	$(PERL) -i.orig -p -e 's{util-macros}{xorg-macros}g' \
 		$(SOURCE_DIR)/configure.ac
 
-# Libtool versions before 2.2.2 fail to work with LD=cc in 64 bit builds, 
-# so install fixed libtool m4 macros here as well, so that modules that
-# run autoreconf get the fixed sources
-#
-# S11U1 now has libtool 2.4.2, but not everyone has updated yet to a build
-# with the new version, so for now, we check the version number before trying
-# to apply the patch, to avoid failures on versions with the bug already fixed.
-# This will be removed in the future, once everyone has had a chance to upgrade.
-install_libtool_fix: $(TOOLS_ACLOCAL_DIR)/libtool.m4
-
-$(TOOLS_ACLOCAL_DIR)/libtool.m4: $(TOOLS_ACLOCAL_DIR) libtool-64.patch
-	-rm -f $(TOOLS_ACLOCAL_DIR)/libtool.m4
-	SYSTEM_ACLOCAL_DIR=$$($(ACLOCAL_PATH) --print-ac-dir) ; \
-	cp $${SYSTEM_ACLOCAL_DIR}/libtool.m4 \
-		$(TOOLS_ACLOCAL_DIR)/libtool.m4
-	@libtool_version=$$(libtool --version | \
-				awk '/^libtool / {print $$NF ; exit}') ; \
-	if [[ $${libtool_version%%.[0-9.]*} -lt 2 ]] ; then \
-		$(START_CMD_ECHO) ; \
-		gpatch -d $(TOOLS_ACLOCAL_DIR) < libtool-64.patch ; \
-	else \
-		print 'libtool version 2 in use, skipping libtool-64.patch' ; \
-	fi
-
 # autoreconf fails if the aclocal include directories don't exist yet
-$(AUTOCONF_TARGET): $(TOOLS_ACLOCAL_DIR) $(PROTODIR)$(X11_ACLOCAL_DIR)
+$(AUTOCONF_TARGET): $(PROTODIR)$(X11_ACLOCAL_DIR)
 
-$(TOOLS_ACLOCAL_DIR) $(PROTODIR)$(X11_ACLOCAL_DIR):
+$(PROTODIR)$(X11_ACLOCAL_DIR):
 	mkdir -p $@
